@@ -5,32 +5,32 @@ class CookieCutter:
 
     @staticmethod
     def get_default_mem_mb() -> int:
-        return int("{{cookiecutter.default_mem_mb}}")
+        return int("4096")
 
     @staticmethod
     def get_log_dir() -> str:
-        return "{{cookiecutter.default_cluster_logdir}}"
+        return "logs/cluster"
 
     @staticmethod
     def get_default_queue() -> str:
-        return "{{cookiecutter.default_queue}}"
+        return "premium"
 
     @staticmethod
     def get_default_project() -> str:
-        return "{{cookiecutter.default_project}}"
+        return "acc_LOAD"
 
     @staticmethod
     def get_lsf_unit_for_limits() -> str:
-        return "{{cookiecutter.LSF_UNIT_FOR_LIMITS}}"
+        return "MB"
 
     @staticmethod
     def get_unknwn_behaviour() -> str:
-        return "{{cookiecutter.UNKWN_behaviour}}"
+        return "wait"
 
     @staticmethod
     def get_zombi_behaviour() -> str:
-        return "{{cookiecutter.ZOMBI_behaviour}}"
+        return "ignore"
 
     @staticmethod
     def get_latency_wait() -> float:
-        return float("{{cookiecutter.latency_wait}}")
+        return float("10")

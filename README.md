@@ -22,39 +22,23 @@
 
 ## Install
 
-### Dependencies
-
-This profile is deployed using [Cookiecutter][cookiecutter-repo]. If you do not have
-`cookiecutter` installed it can be easily installed using `conda` or `pip` by running:
+To install the preconfigured Goate Lab settings, run the following:
 
 ```bash
-pip install --user cookiecutter
-# or
-conda install -c conda-forge cookiecutter
+mkdir -p ~/.config/snakemake && \
+  git clone -b preconfigured_goatelab \
+    https://github.com/BEFH/lsf.git \
+    ~/.config/snakemake/lsf
 ```
 
-If neither of these methods suits you, then visit the [installation
-documentation][cc-install] for other options.
-
-### Profile
-
-Download and set up the profile on your cluster
-
-```bash
-# create configuration directory that snakemake searches for profiles
-profile_dir="${HOME}/.config/snakemake"
-mkdir -p "$profile_dir"
-# use cookiecutter to create the profile in the config directory
-template="gh:Snakemake-Profiles/lsf"
-cookiecutter --output-dir "$profile_dir" "$template"
-```
-
-You will then be prompted to set some default parameters.
+You can modify the presets in `~/.config/snakemake/lsf/config.yaml` and `~/.config/snakemake/lsf/CookieCutter.py`
 
 #### `LSF_UNIT_FOR_LIMITS`
 
 **Default**: `KB`  
 **Valid options:** `KB`, `MB`, `GB`, `TB`, `PB`, `EB`, `ZB`
+
+***On Minerva, this is in MB.***
 
 **⚠️IMPORTANT⚠️**: This **must** be set to the same as [`LSF_UNIT_FOR_LIMITS`][limits] on
 your cluster. This value is stored in your cluster's [`lsf.conf`][lsf-conf] file. In
@@ -95,7 +79,7 @@ considered failed.
 
 #### `latency_wait`
 
-**Default:** `5`
+**Default:** `10`
 
 This sets the default `--latency-wait/--output-wait/-w` parameter in `snakemake`.  
 From the `snakemake --help` menu
@@ -109,7 +93,7 @@ From the `snakemake --help` menu
 
 #### `use_conda`
 
-**Default**: `False`  
+**Default**: `True`  
 **Valid options:** `False`, `True`
 
 This sets the default `--use-conda` parameter in `snakemake`.  
@@ -123,7 +107,7 @@ From the `snakemake --help` menu
 
 #### `use_singularity`
 
-**Default**: `False`  
+**Default**: `True`  
 **Valid options:** `False`, `True`
 
 This sets the default `--use-singularity` parameter in `snakemake`.  
@@ -150,7 +134,7 @@ From the `snakemake --help` menu
 
 #### `print_shell_commands`
 
-**Default**: `False`  
+**Default**: `True`  
 **Valid options:** `False`, `True`
 
 This sets the default ` --printshellcmds/-p` parameter in `snakemake`.  
@@ -162,10 +146,16 @@ From the `snakemake --help` menu
 
 #### `jobs`
 
-**Default**: `500`
+**Default**: `2000`
 
 This sets the default `--cores/--jobs/-j` parameter in `snakemake`.  
 From the `snakemake --help` menu
+
+Make sure you can actually run this many jobs by running
+
+```
+ulimit -u
+```
 
 ```text
   --cores [N], --jobs [N], -j [N]
@@ -179,7 +169,7 @@ the same time<sup>[1][1]</sup>.
 
 #### `default_mem_mb`
 
-**Default**: `1024`
+**Default**: `4096`
 
 This sets the default memory, in megabytes, for a `rule` being submitted to the cluster
 without `mem_mb` set under `resources`.
@@ -213,7 +203,7 @@ specific rule by following the instructions
 
 #### `default_queue`
 
-**Default**: None
+**Default**: premium
 
 The default queue on the cluster to submit jobs to. If left unset, then the default on
 your cluster will be used.  
@@ -221,7 +211,7 @@ The `bsub` parameter that this controls is [`-q`][bsub-q].
 
 #### `default_project`
 
-**Default**: None
+**Default**: acc_LOAD
 
 The default project on the cluster to submit jobs with. If left unset, then the default on
 your cluster will be used.
@@ -230,7 +220,7 @@ The `bsub` parameter that this controls is [`-P`][bsub-P].
 
 #### `max_status_checks_per_second`
 
-**Default**: `10`
+**Default**: `5`
 
 This sets the default `--max-status-checks-per-second` parameter in `snakemake`.  
 From the `snakemake --help` menu
@@ -243,7 +233,7 @@ From the `snakemake --help` menu
 
 #### `max_jobs_per_second`
 
-**Default**: `10`
+**Default**: `5`
 
 This sets the default `--max-jobs-per-second` parameter in `snakemake`.  
 From the `snakemake --help` menu
